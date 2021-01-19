@@ -8,44 +8,56 @@
 Nette-AntiSpam slouží jako formulářová komponenta, která pomocí čtyř metod ochrání formulář proti náhodnému spamu.
 
 ### Skrytá pole
+
 Do formuláře jsou vygenerována další pole navíc, která jsou před uživatelem skryta JavaScriptem. Pokud
 bude nějaké z polí vyplněno, bude odesílající identifikován jako spambot.
 
-Skrytí JavaScriptem se dá nahradit vlastní CSS třídou po skrytí pro případ uživatelů bez JavaScriptu. 
+Skrytí JavaScriptem se dá nahradit vlastní CSS třídou po skrytí pro případ uživatelů bez JavaScriptu.
 
 ### Časový zámek formuláře
+
 Jelikož spamboti zpravidla odesílají formuláře téměř ihned. Dá se nastavit ve vteřinách doba, pro kterou formulář
 zablokován.
 
 ### Kontrolní otázka
+
 Náhodně vygenerovaná, jednoduchá početní úloha, kdy čísla jsou náhodně převáděna na řetězce. Tato otázka
 je uživateli opět skryta a vyplněna JavaScriptem. Pokud má uživatel JavaScript vypnutý, bude vyzván k vyplnění pole.
 
 Pro tento případ je možné labelu i inputu nastavit vlastní vykreslování.
 
 ### Prodleva mezi příspěvky
+
 Tato prodleva určuje, za jak dlouho může uživatel znova odeslat příspěvěk.
 
 ## Composer
+
 ```
-composer require jzechy/nette-antispam
+composer require urbitech/nette-antispam
 ```
 
 ## Instalace
+
 Do vašeho config.neon do extensions sekce stačí přidat:
+
 ```
 antispam: Zet\AntiSpam\AntiSpamExtension
 ```
+
 ### Konfigurace
+
 Komponentu lze nakonfigurovat pomocí následujících nastavení:
-* **lockTime** Časový zámek formuláře, během kterého se nesmí odeslat. Nastavuje se očekávaná prodleva ve vteřinách.
-* **resendTime** Čas, po kterém uživatel může znova odeslat formulář. Nastavuje se očekávání prodleva ve vteřinách Lze vypnout nastavením nuly. 
-* **numbers** Pole čísel pro náhodný převod na řetězec. Čísla jsou řazena od nuly.
-* **question** Znění kontrolní otázky. 
-* **translate** Zapne lokalizaci pro kontrolní otázku. True/false.
+
+- **lockTime** Časový zámek formuláře, během kterého se nesmí odeslat. Nastavuje se očekávaná prodleva ve vteřinách.
+- **resendTime** Čas, po kterém uživatel může znova odeslat formulář. Nastavuje se očekávání prodleva ve vteřinách Lze vypnout nastavením nuly.
+- **numbers** Pole čísel pro náhodný převod na řetězec. Čísla jsou řazena od nuly.
+- **question** Znění kontrolní otázky.
+- **translate** Zapne lokalizaci pro kontrolní otázku. True/false.
 
 ## Použití
+
 Registrované rozšíření formuláře lze pak použít následovně:
+
 ```php
 protected function createComponentForm() {
   $form = new \Nette\Application\UI\Form();
@@ -54,12 +66,15 @@ protected function createComponentForm() {
   $form->addAntiSpam("spamControl", 5, 60);
 }
 ```
+
 Funkce addAntiSpam příjímá jako první parametr název prvku, tento jediný parametr je povinný.
 
 Dále lze přidat jako druhý parametr zámek formuláře a jako třetí čas, po kterém bude uživatel moci odeslat znova formulář.
 
 ### Ověření formuláře
+
 Formulář lze ověřit dle hodnoty, kterou prvek vrátí - Navrací true, pokud odesílatel antispamem prošel nebo false v opačném případě:
+
 ```php
 $values = $form->getValues();
 if($values->spamControl) {
@@ -68,7 +83,9 @@ if($values->spamControl) {
 ```
 
 ## Konfigurace
+
 ### Settery
+
 ```php
 $antiSpam->setLockTime(); // Nastaví, kolik vteřin musí uplynout před odesláním formuláře.
 $antiSpam->setResendTime(); // Nastaví, kolik vteřin musí uplynout, než je formulář znova odeslán.
@@ -77,27 +94,30 @@ $antispam->setQuestion(); // Znění kontrolní otázky.
 ```
 
 ### Gettery
+
 ```php
 $antispam->getError(); // Kod chyby.
 $antispam->getHiddenFields(); // Vrátí generátor skrytých polí. Užitečné pro přepnutí schování z JS na CSS.
 $antispam->getQuestionGenerator(); // Vrátí generátor kontrolní otázky s prototypy Labelu a inputu.
 ```
+
 Pokud budou splněny všechny podmínky pro odeslání formuláře, bude funkcí getError() navrácena **0**. Jinak se vrací číselné označení chyby, které lze testovat proti konstantám ze třídy **Zet\AntiSpam\ErrorType**.
 
 ### ErrorType Konstanty
+
 ```php
 class ErrorType {
-	
+
 	use StaticClass;
-	
+
 	const NO_ERROR = 0;
-	
+
 	const LOCK_TIME = 1;
-	
+
 	const RESEND_TIME = 2;
-	
+
 	const HIDDEN_FIELDS = 3;
-	
+
 	const QUESTION = 4;
 }
 ```

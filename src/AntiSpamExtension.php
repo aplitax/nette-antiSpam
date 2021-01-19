@@ -11,8 +11,9 @@ use Nette\DI\CompilerExtension;
  * @author  Zechy <email@zechy.cz>
  * @package Zet\AntiSpam
  */
-final class AntiSpamExtension extends CompilerExtension {
-	
+final class AntiSpamExtension extends CompilerExtension
+{
+
 	/**
 	 * @var array
 	 */
@@ -25,25 +26,27 @@ final class AntiSpamExtension extends CompilerExtension {
 		"question" => "Kolik je",
 		"translate" => false
 	];
-	
+
 	/**
 	 * @var array
 	 */
 	private $configuration = [];
-	
+
 	/**
 	 *
 	 */
-	public function loadConfiguration() {
-		$this->configuration = $this->getConfig($this->defaults);
+	public function loadConfiguration()
+	{
+		$this->configuration = $this->defaults;
 	}
-	
+
 	/**
 	 * @param Nette\PhpGenerator\ClassType $class
 	 */
-	public function afterCompile(Nette\PhpGenerator\ClassType $class) {
+	public function afterCompile(Nette\PhpGenerator\ClassType $class)
+	{
 		$init = $class->methods["initialize"];
-		
+
 		$init->addBody('\Zet\AntiSpam\AntiSpamControl::register(?, $this->getService(?), $this->getService(?));', [
 			$this->configuration,
 			$this->getContainerBuilder()->getByType(Nette\Http\Session::class),
