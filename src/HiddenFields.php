@@ -54,7 +54,6 @@ class HiddenFields {
 		foreach($this->inputs as $name => $type) {
 			$el = Html::el("input");
 			$el->setAttribute("type", $type);
-			$el->setAttribute('autocomplete', 'off');
 			$el->setAttribute("name", sprintf("%s-%s", $this->htmlName, $name));
 			$group->addHtml($el);
 		}
