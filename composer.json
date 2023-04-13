@@ -1,5 +1,5 @@
 {
-	"name": "urbitech/nette-antispam",
+	"name": "aplitax/nette-antispam",
 	"description": "Nette AntiSpam form control.",
 	"homepage": "https://github.com/JZechy/Nette-AntiSpam/",
 	"license": "MIT",
@@ -11,7 +11,7 @@
 		}
 	],
 	"require": {
-		"php": "^7.0",
+		"php": "^8.0",
 		"nette/forms": "^3.0",
 		"nette/http": "^3.0",
 		"nette/utils": "^3.0",
@@ -19,11 +19,5 @@
 	},
 	"autoload": {
 		"classmap": ["src/"]
-	},
-	"repositories": [
-		{
-		  "type": "vcs",
-		  "url": "http://git.urbitech.cz:3000/jan/urbitech-antispam.git"
-		}
-	  ]
+	}
 }
