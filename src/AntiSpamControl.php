@@ -42,7 +42,7 @@ class AntiSpamControl extends BaseControl
 			if ($lockTime !== null) $control->setLockTime($lockTime);
 			if ($resendTime !== null) $control->setResendTime($resendTime);
 
-			$container->addComponent($control, $name, key($container->getComponents()));
+			$container->addComponent($control, $name, key((array) $container->getComponents()));
 
 			return $control;
 		});
